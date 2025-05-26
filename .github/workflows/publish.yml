@@ -1,0 +1,43 @@
+name: Build and Publish CLI Tool
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.x'
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+
+    - name: Run Tests
+      run: dotnet test --no-build --verbosity normal
+
+    - name: Pack NuGet tool
+      run: dotnet pack FrankTools.Cli/FrankTools.Cli.csproj --configuration Release -o ./nupkg
+
+    - name: Bump version and publish to NuGet
+      env:
+        NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+      run: |
+        VERSION=$(date +'%Y.%m.%d.%H%M') # es. 2025.05.26.1812
+        sed -i "s|<Version>.*</Version>|<Version>$VERSION</Version>|" FrankTools.Cli/FrankTools.Cli.csproj
+        git config user.name "FrankOfTheScience"
+        git commit -am "🔖 Bump version to $VERSION"
+        git push
+
+        dotnet nuget push "./nupkg/*.nupkg" \
+          --api-key $NUGET_API_KEY \
+          --source https://api.nuget.org/v3/index.json
