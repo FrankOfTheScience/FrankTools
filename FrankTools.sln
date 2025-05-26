@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrankTools.Cli", "FrankTools.Cli\FrankTools.Cli.csproj", "{0A51EEE5-F8C2-4682-992D-BD0D01A0FD80}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrankTools.Tests", "FrankTools.Tests\FrankTools.Tests.csproj", "{A6084997-046F-48EB-AC46-5BE78DE3CBB7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{0A51EEE5-F8C2-4682-992D-BD0D01A0FD80}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A51EEE5-F8C2-4682-992D-BD0D01A0FD80}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A51EEE5-F8C2-4682-992D-BD0D01A0FD80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6084997-046F-48EB-AC46-5BE78DE3CBB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6084997-046F-48EB-AC46-5BE78DE3CBB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6084997-046F-48EB-AC46-5BE78DE3CBB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6084997-046F-48EB-AC46-5BE78DE3CBB7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

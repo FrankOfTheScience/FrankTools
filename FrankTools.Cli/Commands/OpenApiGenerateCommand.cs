@@ -57,64 +57,67 @@ public class OpenApiGenerateCommand : Command<OpenApiGenerateCommand.Settings>
 
     private async Task<int> Run(Settings s)
     {
-        AnsiConsole.MarkupLine("[bold yellow]🔧 Loading OpenAPI document...[/]");
-        var doc = s.Input.StartsWith("http")
+        var filePath = await AnsiConsole.Status().Start("[bold yellow]🔧 Loading OpenAPI document...[/]", async ctx =>
+        {
+            var doc = s.Input.StartsWith("http")
             ? await OpenApiDocument.FromUrlAsync(s.Input)
             : await OpenApiDocument.FromFileAsync(s.Input);
 
-        string code;
-        string filePath;
+            string code;
+            string filePath;
 
-        if (s.Type.ToLower() == "server")
-        {
-            var serverSettings = new CSharpControllerGeneratorSettings
+            if (s.Type.ToLower() == "server")
             {
-                ControllerBaseClass = "ControllerBase",
-                ControllerStyle = CSharpControllerStyle.Partial,
-                CSharpGeneratorSettings =
+                var serverSettings = new CSharpControllerGeneratorSettings
                 {
-                    Namespace = s.Namespace
-                }
-            };
+                    ControllerBaseClass = "ControllerBase",
+                    ControllerStyle = CSharpControllerStyle.Partial,
+                    CSharpGeneratorSettings =
+                    {
+                        Namespace = s.Namespace
+                    }
+                };
 
-            var controllerGenerator = new CSharpControllerGenerator(doc, serverSettings);
-            code = controllerGenerator.GenerateFile();
-            filePath = Path.Combine(s.Output, "Controllers.cs");
-        }
-        else
-        {
-            var clientSettings = new CSharpClientGeneratorSettings
+                var controllerGenerator = new CSharpControllerGenerator(doc, serverSettings);
+                code = controllerGenerator.GenerateFile();
+                filePath = Path.Combine(s.Output, "Controllers.cs");
+            }
+            else
             {
-                ClassName = s.ClassName ?? "ApiClient",
-                UseHttpClientCreationMethod = s.UseHttpClientFactory,
-                GenerateClientInterfaces = s.GenerateInterfaces,
-                GenerateOptionalParameters = true,
-                InjectHttpClient = s.UseHttpClientFactory,
-                DisposeHttpClient = !s.UseHttpClientFactory,
-                UseBaseUrl = true,
-                GenerateClientClasses = true,
-                GenerateResponseClasses = true,
-                GenerateBaseUrlProperty = true,
-                CSharpGeneratorSettings =
+                var clientSettings = new CSharpClientGeneratorSettings
                 {
-                    Namespace = s.Namespace,
-                    GenerateDefaultValues = true,
-                    GenerateDataAnnotations = true,
-                    GenerateNullableReferenceTypes = true,
-                    RequiredPropertiesMustBeDefined = false,
-                    JsonLibrary = CSharpJsonLibrary.SystemTextJson,
-                }
-            };
+                    ClassName = s.ClassName ?? "ApiClient",
+                    UseHttpClientCreationMethod = s.UseHttpClientFactory,
+                    GenerateClientInterfaces = s.GenerateInterfaces,
+                    GenerateOptionalParameters = true,
+                    InjectHttpClient = s.UseHttpClientFactory,
+                    DisposeHttpClient = !s.UseHttpClientFactory,
+                    UseBaseUrl = true,
+                    GenerateClientClasses = true,
+                    GenerateResponseClasses = true,
+                    GenerateBaseUrlProperty = true,
+                    CSharpGeneratorSettings =
+                    {
+                        Namespace = s.Namespace,
+                        GenerateDefaultValues = true,
+                        GenerateDataAnnotations = true,
+                        GenerateNullableReferenceTypes = true,
+                        RequiredPropertiesMustBeDefined = false,
+                        JsonLibrary = CSharpJsonLibrary.SystemTextJson,
+                    }
+                };
 
-            var clientGenerator = new CSharpClientGenerator(doc, clientSettings);
-            code = clientGenerator.GenerateFile();
-            var baseName = s.FileName ?? (s.Type.ToLower() == "server" ? "Controllers" : "ApiClient");
-            filePath = Path.Combine(s.Output, baseName + ".cs");
+                var clientGenerator = new CSharpClientGenerator(doc, clientSettings);
+                code = clientGenerator.GenerateFile();
+                var baseName = s.FileName ?? (s.Type.ToLower() == "server" ? "Controllers" : "ApiClient");
+                filePath = Path.Combine(s.Output, baseName + ".cs");
 
-        }
+            }
 
-        Directory.CreateDirectory(s.Output);
-        await File.WriteAllTextAsync(filePath, code);
+            Directory.CreateDirectory(s.Output);
+            await File.WriteAllTextAsync(filePath, code);
+            return filePath;
+        });
 
         AnsiConsole.MarkupLine($"[green]✅ Code generated in: [underline]{Path.GetFullPath(filePath)}[/][/]");
         return 0;

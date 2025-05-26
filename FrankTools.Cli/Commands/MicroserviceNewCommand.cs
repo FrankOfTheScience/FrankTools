@@ -33,22 +33,24 @@ public class MicroserviceNewCommand : Command<MicroserviceNewCommand.Settings>
             return -1;
         }
 
-        AnsiConsole.MarkupLine($"[yellow]🚧 Creatign structure for microservice '{name}'...[/]");
-        Directory.CreateDirectory(rootPath);
-        Directory.CreateDirectory(Path.Combine(rootPath, $"{name}.API", "Controllers"));
-        Directory.CreateDirectory(Path.Combine(rootPath, $"{name}.Application"));
-        Directory.CreateDirectory(Path.Combine(rootPath, $"{name}.Domain"));
-        Directory.CreateDirectory(Path.Combine(rootPath, $"{name}.Infrastructure"));
+        AnsiConsole.Status().Start($"[yellow]🚧 Creatign structure for microservice '{name}'...[/]", ctx => 
+        {
+            Directory.CreateDirectory(rootPath);
+            Directory.CreateDirectory(Path.Combine(rootPath, $"{name}.API", "Controllers"));
+            Directory.CreateDirectory(Path.Combine(rootPath, $"{name}.Application"));
+            Directory.CreateDirectory(Path.Combine(rootPath, $"{name}.Domain"));
+            Directory.CreateDirectory(Path.Combine(rootPath, $"{name}.Infrastructure"));
 
-        CreateFile(Path.Combine(rootPath, $"{name}.API", "Program.cs"), GetProgramTemplate(name, settings));
-        CreateFile(Path.Combine(rootPath, $"{name}.API", $"{name}.API.csproj"), GetCsprojTemplate(name, settings));
-        CreateFile(Path.Combine(rootPath, $"{name}.API", "appsettings.json"), GetAppSettingsTemplate(settings));
-        CreateFile(Path.Combine(rootPath, "Dockerfile"), GetDockerfileTemplate(name));
-        CreateFile(Path.Combine(rootPath, "docker-compose.yml"), GetDockerComposeTemplate(name, settings));
-        CreateFile(Path.Combine(rootPath, ".gitignore"), GetGitignoreTemplate());
-        CreateFile(Path.Combine(rootPath, "README.md"), GetReadmeTemplate(name, settings));
-        CreateSolutionFile(rootPath, name);
-
+            CreateFile(Path.Combine(rootPath, $"{name}.API", "Program.cs"), GetProgramTemplate(name, settings));
+            CreateFile(Path.Combine(rootPath, $"{name}.API", $"{name}.API.csproj"), GetCsprojTemplate(name, settings));
+            CreateFile(Path.Combine(rootPath, $"{name}.API", "appsettings.json"), GetAppSettingsTemplate(settings));
+            CreateFile(Path.Combine(rootPath, "Dockerfile"), GetDockerfileTemplate(name));
+            CreateFile(Path.Combine(rootPath, "docker-compose.yml"), GetDockerComposeTemplate(name, settings));
+            CreateFile(Path.Combine(rootPath, ".gitignore"), GetGitignoreTemplate());
+            CreateFile(Path.Combine(rootPath, "README.md"), GetReadmeTemplate(name, settings));
+            CreateSolutionFile(rootPath, name);
+        });
+        
         AnsiConsole.MarkupLine($"[green]✅ Microservice '{name}' created in:[/] [blue]{rootPath}[/]");
         return 0;
     }
