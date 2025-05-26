@@ -7,6 +7,16 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+	<PackAsTool>true</PackAsTool>
+	<ToolCommandName>frank</ToolCommandName>
+	<Version>0.1.0</Version>
+	<Authors>FrankOfTheScience</Authors>
+	<Description>Tool CLI Suite for SourceGenerator in C# .NET</Description>
+	<PackageTags>cli;dotnet;tool;microservices;generator</PackageTags>
+	<PackageProjectUrl>https://github.com/francescodFrankOfTheScienceellascenza/FrankTools</PackageProjectUrl>
+	<RepositoryUrl>https://github.com/FrankOfTheScience/FrankTools</RepositoryUrl>
+	<RepositoryType>git</RepositoryType>
+
   <ItemGroup>
     <PackageReference Include="NSwag.CodeGeneration.CSharp" Version="14.4.0" />
     <PackageReference Include="NSwag.Core" Version="14.4.0" />
