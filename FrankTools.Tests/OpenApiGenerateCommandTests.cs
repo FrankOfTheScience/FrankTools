@@ -17,7 +17,7 @@ public class OpenApiGenerateCommandTests
         };
 
         var command = new OpenApiGenerateCommand();
-        var context = new CommandContext(null, null, null, null);
+        var context = new CommandContext(null!, null!, null!, null!);
 
         // Mock OpenAPI document
         File.WriteAllText(settings.Input, "{}");
@@ -48,7 +48,7 @@ public class OpenApiGenerateCommandTests
         };
 
         var command = new OpenApiGenerateCommand();
-        var context = new CommandContext(null, null, null, null);
+        var context = new CommandContext(null!, null!, null!, null!);
 
         // Mock OpenAPI document
         File.WriteAllText(settings.Input, "{}");
@@ -78,7 +78,7 @@ public class OpenApiGenerateCommandTests
         };
 
         var command = new OpenApiGenerateCommand();
-        var context = new CommandContext(null, null, null, null);
+        var context = new CommandContext(null!, null!, null!, null!);
 
         // Act
         var result = await Task.Run(() => command.Execute(context, settings));
@@ -101,7 +101,7 @@ public class OpenApiGenerateCommandTests
         };
 
         var command = new OpenApiGenerateCommand();
-        var context = new CommandContext(null, null, null, null);
+        var context = new CommandContext(null!, null!, null!, null!);
 
         // Mock OpenAPI document
         File.WriteAllText(settings.Input, "{}");

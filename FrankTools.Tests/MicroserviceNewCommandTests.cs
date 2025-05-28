@@ -14,7 +14,7 @@ public class MicroserviceNewCommandTests
             UseSql = false
         };
         var cmd = new MicroserviceNewCommand();
-        var context = new CommandContext(null, null, null, null);
+        var context = new CommandContext(null!, null!, null!, null!);
 
         // Act
         var result = cmd.Execute(context, settings);
@@ -48,7 +48,7 @@ public class MicroserviceNewCommandTests
             ServiceName = "ExistingMicroservice"
         };
         var cmd = new MicroserviceNewCommand();
-        var context = new CommandContext(null, null, null, null);
+        var context = new CommandContext(null!, null!, null!, null!);
 
         Directory.CreateDirectory("ExistingMicroservice");
 
@@ -73,7 +73,7 @@ public class MicroserviceNewCommandTests
             UseSql = false
         };
         var cmd = new MicroserviceNewCommand();
-        var context = new CommandContext(null, null, null, null);
+        var context = new CommandContext(null!, null!, null!, null!);
 
         // Act
         var result = cmd.Execute(context, settings);
@@ -98,7 +98,7 @@ public class MicroserviceNewCommandTests
             UseSql = true
         };
         var cmd = new MicroserviceNewCommand();
-        var context = new CommandContext(null, null, null, null);
+        var context = new CommandContext(null!, null!, null!, null!);
 
         // Act
         var result = cmd.Execute(context, settings);
