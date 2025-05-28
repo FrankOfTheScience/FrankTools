@@ -6,7 +6,7 @@
 		<PackAsTool>true</PackAsTool>
 		<ToolCommandName>franktools</ToolCommandName>
 
-		<Version>0.1.0</Version>
+		<Version>2025.05.28.0649</Version>
 		<Authors>Francesco Dell'Ascenza</Authors>
 		<Company>FrankTools</Company>
 		<Description>FrankTools is a tool CLI suite for C# .NET source generation and others</Description>
