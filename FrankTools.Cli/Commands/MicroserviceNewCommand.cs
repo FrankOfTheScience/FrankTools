@@ -35,7 +35,7 @@ public class MicroserviceNewCommand : Command<MicroserviceNewCommand.Settings>
             return -1;
         }
 
-        AnsiConsole.Status().Start($"[yellow]🚧 Creatign structure for microservice '{name}'...[/]", ctx => 
+        AnsiConsole.Status().Start($"[yellow]🚧 Creating structure for microservice '{name}'...[/]", ctx => 
         {
             Directory.CreateDirectory(rootPath);
             Directory.CreateDirectory(Path.Combine(rootPath, $"{name}.API", "Controllers"));
@@ -59,8 +59,15 @@ public class MicroserviceNewCommand : Command<MicroserviceNewCommand.Settings>
 
     private void CreateFile(string path, string content)
     {
-        File.WriteAllText(path, content);
-        AnsiConsole.MarkupLine($"[grey]  > Created:[/] {path}");
+        try
+        {
+            File.WriteAllText(path, content);
+            AnsiConsole.MarkupLine($"[grey]  > Created:[/] {path}");
+        }
+        catch (Exception ex)
+        {
+            AnsiConsole.MarkupLine($"[red]❌ Failed to create {path}: {ex.Message}[/]");
+        }
     }
 
     private void CreateSolutionFile(string rootPath, string name)

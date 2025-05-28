@@ -1,8 +1,17 @@
 using FrankTools.Cli.Commands;
 using Spectre.Console.Cli;
+using Moq;
+using System.Runtime.CompilerServices;
 
+namespace FrankTools.Tests;
 public class MicroserviceNewCommandTests
 {
+    private readonly Mock<CommandContext> _commandContextMock;
+    public MicroserviceNewCommandTests()
+    {
+        this._commandContextMock = new Mock<CommandContext>();
+    }
+
     [Fact]
     public void Should_Create_Microservice_Structure()
     {
@@ -14,10 +23,9 @@ public class MicroserviceNewCommandTests
             UseSql = false
         };
         var cmd = new MicroserviceNewCommand();
-        var context = new CommandContext(null!, null!, null!, null!);
 
         // Act
-        var result = cmd.Execute(context, settings);
+        var result = cmd.Execute(_commandContextMock.Object, settings);
 
         // Assert
         Assert.Equal(0, result);
@@ -48,12 +56,11 @@ public class MicroserviceNewCommandTests
             ServiceName = "ExistingMicroservice"
         };
         var cmd = new MicroserviceNewCommand();
-        var context = new CommandContext(null!, null!, null!, null!);
 
         Directory.CreateDirectory("ExistingMicroservice");
 
         // Act
-        var result = cmd.Execute(context, settings);
+        var result = cmd.Execute(_commandContextMock.Object, settings);
 
         // Assert
         Assert.Equal(-1, result);
@@ -73,10 +80,9 @@ public class MicroserviceNewCommandTests
             UseSql = false
         };
         var cmd = new MicroserviceNewCommand();
-        var context = new CommandContext(null!, null!, null!, null!);
 
         // Act
-        var result = cmd.Execute(context, settings);
+        var result = cmd.Execute(_commandContextMock.Object, settings);
 
         // Assert
         Assert.Equal(0, result);
@@ -98,15 +104,14 @@ public class MicroserviceNewCommandTests
             UseSql = true
         };
         var cmd = new MicroserviceNewCommand();
-        var context = new CommandContext(null!, null!, null!, null!);
 
         // Act
-        var result = cmd.Execute(context, settings);
+        var result = cmd.Execute(_commandContextMock.Object, settings);
 
         // Assert
         Assert.Equal(0, result);
         var programContent = File.ReadAllText("SqlMicroservice/SqlMicroservice.API/Program.cs");
-        Assert.Contains("builder.Services.AddDbContext<MyDbContext>", programContent);
+        Assert.Contains("builder.Services.AddDb_commandContextMock.Object<MyDb_commandContextMock.Object>", programContent);
 
         // Cleanup
         Directory.Delete("SqlMicroservice", true);

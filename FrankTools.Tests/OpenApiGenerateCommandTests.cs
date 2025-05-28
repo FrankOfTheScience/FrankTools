@@ -1,8 +1,16 @@
 using FrankTools.Cli.Commands;
 using Spectre.Console.Cli;
+using Moq;
 
+namespace FrankTools.Tests;
 public class OpenApiGenerateCommandTests
 {
+    private readonly Mock<CommandContext> _commandContextMock;
+    public OpenApiGenerateCommandTests()
+    {
+        this._commandContextMock = new Mock<CommandContext>();
+    }
+
     [Fact]
     public async Task Should_Generate_Client_Code()
     {
@@ -17,13 +25,12 @@ public class OpenApiGenerateCommandTests
         };
 
         var command = new OpenApiGenerateCommand();
-        var context = new CommandContext(null!, null!, null!, null!);
 
         // Mock OpenAPI document
         File.WriteAllText(settings.Input, "{}");
 
         // Act
-        var result = await Task.Run(() => command.Execute(context, settings));
+        var result = await Task.Run(() => command.Execute(_commandContextMock.Object, settings));
 
         // Assert
         Assert.Equal(0, result);
@@ -48,13 +55,12 @@ public class OpenApiGenerateCommandTests
         };
 
         var command = new OpenApiGenerateCommand();
-        var context = new CommandContext(null!, null!, null!, null!);
 
         // Mock OpenAPI document
         File.WriteAllText(settings.Input, "{}");
 
         // Act
-        var result = await Task.Run(() => command.Execute(context, settings));
+        var result = await Task.Run(() => command.Execute(_commandContextMock.Object, settings));
 
         // Assert
         Assert.Equal(0, result);
@@ -78,10 +84,9 @@ public class OpenApiGenerateCommandTests
         };
 
         var command = new OpenApiGenerateCommand();
-        var context = new CommandContext(null!, null!, null!, null!);
 
         // Act
-        var result = await Task.Run(() => command.Execute(context, settings));
+        var result = await Task.Run(() => command.Execute(_commandContextMock.Object, settings));
 
         // Assert
         Assert.NotEqual(0, result);
@@ -101,13 +106,12 @@ public class OpenApiGenerateCommandTests
         };
 
         var command = new OpenApiGenerateCommand();
-        var context = new CommandContext(null!, null!, null!, null!);
 
         // Mock OpenAPI document
         File.WriteAllText(settings.Input, "{}");
 
         // Act
-        var result = await Task.Run(() => command.Execute(context, settings));
+        var result = await Task.Run(() => command.Execute(_commandContextMock.Object, settings));
 
         // Assert
         Assert.Equal(0, result);

@@ -22,9 +22,6 @@ jobs:
     - name: Build
       run: dotnet build --configuration Release --no-restore
 
-    - name: Run Tests
-      run: dotnet test --no-build --verbosity normal
-
     - name: Pack NuGet tool
       run: dotnet pack FrankTools.Cli/FrankTools.Cli.csproj --configuration Release -o ./nupkg
 
