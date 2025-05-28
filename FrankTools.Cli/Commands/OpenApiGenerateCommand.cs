@@ -5,6 +5,8 @@ using NSwag.CodeGeneration.CSharp.Models;
 using Spectre.Console;
 using Spectre.Console.Cli;
 using System.ComponentModel;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace FrankTools.Cli.Commands;
 
@@ -26,7 +28,7 @@ public class OpenApiGenerateCommand : Command<OpenApiGenerateCommand.Settings>
 
         [CommandOption("--class-name <NAME>")]
         [Description("Class name of client/server")]
-        public string? ClassName { get; set; }
+        public string ClassName { get; set; } = null;
 
         [CommandOption("--use-httpclient-factory")]
         [Description("Use IHttpClientFactory (only for client)")]
@@ -46,7 +48,7 @@ public class OpenApiGenerateCommand : Command<OpenApiGenerateCommand.Settings>
 
         [CommandOption("--filename <FILENAME>")]
         [Description("Nome del file di output (senza estensione)")]
-        public string? FileName { get; set; }
+        public string FileName { get; set; } = null;
     }
 
 
