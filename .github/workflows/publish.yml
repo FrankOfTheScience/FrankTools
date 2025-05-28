@@ -27,14 +27,26 @@ jobs:
 
     - name: Bump version and publish to NuGet
       env:
+        GITHUB_KEY: ${{ secrets.GITHUB_TOKEN  }}
         NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
       run: |
         VERSION=$(date +'%Y.%m.%d.%H%M') # es. 2025.05.26.1812
+        echo "New version: $VERSION"
+        
+        # Bump version in .csproj
         sed -i "s|<Version>.*</Version>|<Version>$VERSION</Version>|" FrankTools.Cli/FrankTools.Cli.csproj
-        git config user.name "FrankOfTheScience"
-        git commit -am "🔖 Bump version to $VERSION"
-        git push
 
+        # Git config
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+
+        git add FrankTools.Cli/FrankTools.Cli.csproj
+        git commit -m "🔖 Bump version to $VERSION" || echo "No changes to commit"
+
+        # Push using token
+        git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }} HEAD:master
+
+        # Publish to NuGet
         dotnet nuget push "./nupkg/*.nupkg" \
           --api-key $NUGET_API_KEY \
           --source https://api.nuget.org/v3/index.json
